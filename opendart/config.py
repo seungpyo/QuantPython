@@ -5,3 +5,5 @@ dataPath = 'data'
 corpCodeXmlPath = os.path.join(dataPath, 'CORPCODE.xml')
 corpCodePklPath = os.path.join(dataPath, 'corpCode.pkl')
 corpCodeZipPath = os.path.join(dataPath, 'corpCode.zip')
+
+debugVerbosity = 2
