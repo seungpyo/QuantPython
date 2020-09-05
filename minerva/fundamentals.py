@@ -1,0 +1,4 @@
+import stockcode
+
+
+print (stockcode)

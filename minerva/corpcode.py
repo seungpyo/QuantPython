@@ -3,8 +3,8 @@ import os
 import pickle
 import zipfile
 import xml.etree.ElementTree as elemTree
-import minerva.config as config
-from minerva.utils import debugPrint
+import config
+from utils import debugPrint
 
 
 def loadCorpCodesCached():

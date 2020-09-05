@@ -1,12 +1,20 @@
-import minerva.config
-import minerva.corpcode
-import minerva.finstat
-import minerva.quotes
-import minerva.stockcode
-from minerva.utils import *
+import shutil, os, sys
 
 
+def clearData():
+    shutil.rmtree(os.path.join(os.path.dirname(__file__), 'data')) 
+    
 if __name__ == '__main__':
+    
+    sys.path.insert(1, os.path.join(os.path.dirname(__file__), 'minerva'))
+
+    import minerva.config
+    import minerva.corpcode
+    import minerva.finstat
+    import minerva.quotes
+    import minerva.stockcode
+    from minerva.utils import *
+    
     debugPrint('easy_init', 'Loading corporation codes...')
     minerva.corpcode.loadCorpCodes()
     debugPrint('easy_init', 'Creating and populating the STOCK_CODE table...')

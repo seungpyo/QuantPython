@@ -1,8 +1,8 @@
 import sqlite3 as sl
 import pandas as pd
 import pandas_datareader.data as web
-import minerva.stockcode as stockcode
-import minerva.config as config
+import stockcode
+import config
 
 
 def createQuotesTable():

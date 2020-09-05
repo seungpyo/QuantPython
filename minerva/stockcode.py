@@ -1,6 +1,6 @@
 import pandas as pd
 import sqlite3 as sl
-import minerva.config as config
+import config
 
 
 def createStockCodeTable():
