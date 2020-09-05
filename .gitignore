@@ -1,2 +1,3 @@
 opendart/data/*
 opendart/__pycache__/*
+quotes/*.db
