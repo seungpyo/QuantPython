@@ -1,8 +1,8 @@
 import sqlite3 as sl
 import pandas as pd
-import stockCodes
-import config
 import pandas_datareader.data as web
+import minerva.stockcode as stockcode
+import minerva.config as config
 
 
 def createQuotesTable():
@@ -69,7 +69,7 @@ if __name__ == '__main__':
     dropQuotes()
     createQuotesTable()
     # describeQuotes()
-    stockCode = stockCodes.getStockCode('삼성전자')
+    stockCode = stockcode.getStockCode('삼성전자')
     insertQuotes(stockCode, '2020-01-01', '2020-09-02')
     ret = getQuotes(stockCode, '2020-01-17', '2020-04-02')
     print(ret)

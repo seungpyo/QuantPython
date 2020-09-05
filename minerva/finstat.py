@@ -1,8 +1,8 @@
-import config
-import corpcode
 import requests
 import json
-from utils import debugPrint, commasToInt, intToCommas
+import minerva.config as config
+import minerva.corpcode as corpcode
+from minerva.utils import debugPrint, commasToInt, intToCommas
 
 reportCode = {'1Q': '11013', '2Q': '11012', '3Q': '11014', '4Q': '11011'}
 

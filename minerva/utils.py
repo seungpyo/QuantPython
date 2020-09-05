@@ -1,4 +1,4 @@
-import config
+import minerva.config as config
 
 
 def debugPrint(func, msg, minimumVerbosity=1):

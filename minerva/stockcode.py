@@ -1,9 +1,9 @@
 import pandas as pd
 import sqlite3 as sl
-import config
+import minerva.config as config
 
 
-def populateStockCode():
+def createStockCodeTable():
     df = pd.read_html(
         'http://kind.krx.co.kr/corpgeneral/corpList.do?method=download',
         header=0)

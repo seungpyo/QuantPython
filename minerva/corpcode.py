@@ -1,10 +1,10 @@
 import requests
-import config
 import os
 import pickle
 import zipfile
 import xml.etree.ElementTree as elemTree
-from utils import debugPrint
+import minerva.config as config
+from minerva.utils import debugPrint
 
 
 def loadCorpCodesCached():
@@ -29,7 +29,7 @@ def loadCorpCodes():
     debugPrint('loadCorpCodes', 'Downloading corpcode zip file...')
     if res.status_code != 200:
         debugPrint('loadCorpCodes', '{0} returned status code {1}'.
-              format(baseUrl, res.status_code))
+                   format(baseUrl, res.status_code))
         return None
     debugPrint('loadCorpCodes', 'Downloaded corpcode zip file')
 
