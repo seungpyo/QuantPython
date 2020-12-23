@@ -2,7 +2,9 @@ import shutil, os, sys
 
 
 def clearData():
-    shutil.rmtree(os.path.join(os.path.dirname(__file__), 'data')) 
+    path = os.path.join(os.path.dirname(__file__), 'data')
+    if os.path.exists(path):
+        shutil.rmtree() 
     
 if __name__ == '__main__':
     
@@ -15,12 +17,15 @@ if __name__ == '__main__':
     import minerva.stockcode
     from minerva.utils import *
     
-    debugPrint('easy_init', 'Loading corporation codes...')
+    debugPrint('Cleaning data...')
+    clearData()
+    
+    debugPrint('Loading corporation codes...')
     minerva.corpcode.loadCorpCodes()
-    debugPrint('easy_init', 'Creating and populating the STOCK_CODE table...')
+    debugPrint('Creating and populating the STOCK_CODE table...')
     minerva.stockcode.createStockCodeTable()
-    debugPrint('easy_init', 'Creating the QUOTES table...')
+    debugPrint('Creating the QUOTES table...')
     minerva.quotes.createQuotesTable()
     # debugPrint('easy_init', 'Populating the QUOTES table...')
-    debugPrint('easy_init', 'Initialization complete!', 0)
+    debugPrint('Initialization complete!', 0)
     

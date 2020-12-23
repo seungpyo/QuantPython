@@ -1,8 +1,9 @@
 import sqlite3 as sl
 import pandas as pd
-import pandas_datareader.data as web
+from pykrx import stock
 import stockcode
 import config
+from utils import *
 
 
 def createQuotesTable():
@@ -17,7 +18,8 @@ def createQuotesTable():
                 low REAL,
                 close REAL,
                 volume REAL,
-                adj_close REAL,
+                market_cap REAL,
+                num_stocks INT,
                 FOREIGN KEY(stock_code) REFERENCES STOCK_CODES(stock_code),
                 CHECK(low < open AND low < high AND low < close
                 AND high > open AND high > close)
@@ -42,17 +44,22 @@ def dropQuotes():
 
 
 def insertQuotes(stockCode, startDate, endDate, source='yahoo'):
-    df = web.DataReader(stockCode, source, startDate, endDate)
+    df = stock.get_market_ohlcv_by_date(startDate, endDate, stockCode)
+    dfMarketCap = stock.get_market_cap_by_date(startDate, endDate, stockCode)
+    
     df['stock_code'] = stockCode
     df['date'] = df.index
+    df['market_cap'] = dfMarketCap['시가총액']
+    df['num_stocks'] = dfMarketCap['상장주식수']
     df = df.rename(columns={
-        'High': 'high', 'Low': 'low', 'Open': 'open', 'Close': 'close',
-        'Volume': 'volume', 'Adj Close': 'adj_close'})
+        '고가': 'high', '저가': 'low', '시가': 'open', '종가': 'close',
+        '거래량': 'volume'})
     df = df[['stock_code', 'date',
-            'open', 'high', 'low', 'close', 'volume', 'adj_close']]
+            'open', 'high', 'low', 'close', 'volume', 'market_cap', 'num_stocks']]
+    
     with sl.connect(config.dbName) as con:
         df.to_sql('QUOTES', con, if_exists='replace', index=False)
-
+    
 
 def getQuotes(stockCode, startDate, endDate):
     with sl.connect(config.dbName) as con:
@@ -65,11 +72,15 @@ def getQuotes(stockCode, startDate, endDate):
         return quotes
 
 
+def testNaverQuotes(stockCode, startDate, endDate):
+    df = naver.NaverDailyReader()
+    
+
 if __name__ == '__main__':
     dropQuotes()
     createQuotesTable()
     # describeQuotes()
     stockCode = stockcode.getStockCode('삼성전자')
-    insertQuotes(stockCode, '2020-01-01', '2020-09-02')
+    insertQuotes(stockCode, '2020-01-01', '2020-09-02', 'google')
     ret = getQuotes(stockCode, '2020-01-17', '2020-04-02')
     print(ret)

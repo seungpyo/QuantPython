@@ -1,6 +1,8 @@
 import pandas as pd
 import sqlite3 as sl
 import config
+import os
+import sys
 
 
 def createStockCodeTable():
@@ -13,14 +15,20 @@ def createStockCodeTable():
     df['stock_code'] = df['stock_code'].apply(
         lambda x: x.zfill(config.stockCodeLen))
 
-    with sl.connect(config.dbName) as con:
-        con.execute('''
-            CREATE TABLE IF NOT EXISTS STOCK_CODE (
-                corp_name TEXT NOT NULL PRIMARY KEY,
-                stock_code TEXT NOT NULL
-            );
-        ''')
-        df.to_sql('STOCK_CODE', con, if_exists='replace')
+    try:
+        dbPath = os.path.join(config.dataPath, config.dbName)
+        with sl.connect(dbPath) as con:
+            con.execute('''
+                CREATE TABLE IF NOT EXISTS STOCK_CODE (
+                    corp_name TEXT NOT NULL PRIMARY KEY,
+                    stock_code TEXT NOT NULL
+                );
+            ''')
+            df.to_sql('STOCK_CODE', con, if_exists='replace')
+    except sl.OperationalError as e:
+        print('Failed to open database file at: {0}'.format(config.dbName))
+        print(e)
+        sys.exit(1)
 
 
 def getStockCode(corpName, marketCode='KS'):

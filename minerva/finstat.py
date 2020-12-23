@@ -33,16 +33,16 @@ class FinStat:
                   'bsns_year': self.bsns_year,
                   'reprt_code': self.reprt_code}
         
-        debugPrint('getFinStatJSON', 'Connecting to {0}...'.format(url))
+        debugPrint('Connecting to {0}...'.format(url))
         res = requests.get(url, params=params)
         if res.status_code != 200:
             print('getFinStatJSON: {0} returned status code {1}'.
                   format(url, res.status_code))
             return None
-        debugPrint('getFinStatJSON', 'Downloaded account as a JSON format')
+        debugPrint('Downloaded account as a JSON format')
         # print(str(res.content, 'utf-8'))
         accountJson = json.loads(res.content)
-        debugPrint('getFinStatJSON', 'Transformed into a JSON object')
+        debugPrint('Transformed into a JSON object')
         return accountJson
 
     def parseFinStat(self):
@@ -77,7 +77,7 @@ class FinStat:
             elif account['account_nm'] == '당기순이익':
                 self.netIncome = commasToInt(account['thstrm_amount'])
             else:
-                debugPrint('parseFinStat', 'Unknown account_nm {0}'
+                debugPrint('Unknown account_nm {0}'
                       .format(account['account_nm']))
             
 
